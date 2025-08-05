@@ -2,7 +2,7 @@ import fs from 'fs'
 import { makeId, readJsonFile, getRandomIntInclusive } from "./util.service.js";
 
 const bugs = readJsonFile('data/bugs.json')
-const PAGE_SIZE = 2
+const PAGE_SIZE = 4
 export const bugService = {
     query,
     getById,

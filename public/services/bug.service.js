@@ -14,7 +14,6 @@ export const bugService = {
 }
 
 function query(filterBy,sortBy) {
-    console.log(sortBy)
     return axios.get(BASE_URL, { params: { ...filterBy, ...sortBy } })
         .then(res => res.data)
         .then(bugs => {
@@ -53,14 +52,8 @@ function save(bug) {
     }
 }
 
-
-
-
-
-
-
 function getDefaultFilter() {
-    return { txt: '', minSeverity: 0 }
+    return { txt: '', minSeverity: 0,pageIdx:0 }
 }
 
 function getDefaultSort(){

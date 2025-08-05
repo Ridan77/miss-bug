@@ -15,7 +15,6 @@ export function BugFilter({ filterBy, onSetFilterBy, sortBy, onSetSortBy }) {
   function handleChange({ target }) {
     const field = target.name;
     let value = target.value;
-    console.log(field, value);
 
     switch (target.type) {
       case "number":
@@ -25,7 +24,6 @@ export function BugFilter({ filterBy, onSetFilterBy, sortBy, onSetSortBy }) {
 
       case "checkbox":
         value = target.checked ? -1 : 1;
-        console.log(value);
         break;
 
       default:
@@ -100,7 +98,7 @@ export function BugFilter({ filterBy, onSetFilterBy, sortBy, onSetSortBy }) {
             name="sortDir"
             value={sortDir}
           />
-          <label className="sort-label" for="sortDir">
+          <label className="sort-label" htmlFor="sortDir">
             Descending
           </label>
         </div>
