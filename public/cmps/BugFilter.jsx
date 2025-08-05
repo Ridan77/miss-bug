@@ -66,8 +66,15 @@ export function BugFilter({ filterBy, onSetFilterBy, sortBy, onSetSortBy }) {
           id="minSeverity"
           name="minSeverity"
         />
-        <select value={label} onChange={handleChange} name="label" id="label">
-          <option value="">Filter by Label</option>
+        <label htmlFor="label">Label: </label>
+
+        <select
+          className="label-filter"
+          value={label}
+          onChange={handleChange}
+          name="label"
+          id="label">
+          <option value=""> by Label</option>
           <option value="critical">critial</option>
           <option value="need-CR">need-CR</option>
           <option value="dev-branch">dev-branch</option>
