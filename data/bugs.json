@@ -1,0 +1,34 @@
+[
+  {
+    "_id": "64jpc",
+    "title": "asasasasas",
+    "description": "asdasdasdasd",
+    "severity": 3,
+    "createdAt": 1754320005494,
+    "labels": "['critical', 'need-CR', 'dev-branch']"
+  },
+  {
+    "_id": "x88Dl",
+    "title": "Bug 1754319993848",
+    "description": "asasa",
+    "severity": 3,
+    "createdAt": 1754321504929,
+    "labels": "['critical', 'need-CR', 'dev-branch']"
+  },
+  {
+    "_id": "abc123",
+    "title": "Cannot save a new bug",
+    "description": "problem when clicking Save",
+    "severity": 3,
+    "createdAt": 1542107359454,
+    "labels": "['critical', 'need-CR', 'dev-branch']"
+  },
+  {
+    "_id": "def123",
+    "title": "System crash",
+    "description": "problem when downloading",
+    "severity": 1,
+    "createdAt": 1754317081718,
+    "labels": "['critical', 'need-CR', 'dev-branch']"
+  }
+]
