@@ -55,3 +55,10 @@ export function makeId(length = 5) {
     }
     return text
 }
+
+
+export function getRandomIntInclusive(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min
+}

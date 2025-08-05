@@ -1,5 +1,5 @@
 import fs from 'fs'
-import { makeId, readJsonFile } from "./util.service.js";
+import { makeId, readJsonFile, getRandomIntInclusive } from "./util.service.js";
 
 const bugs = readJsonFile('data/bugs.json')
 const PAGE_SIZE = 2
@@ -10,7 +10,7 @@ export const bugService = {
     save
 }
 
-function query(filterBy) {
+function query(filterBy, sortBy) {
     let bugsToReturn = bugs
     if (filterBy.txt) {
         const regExp = new RegExp(filterBy.txt, 'i')
@@ -21,9 +21,21 @@ function query(filterBy) {
         bugsToReturn = bugsToReturn.filter(bug => bug.severity >= filterBy.minSeverity)
     }
 
+    if (filterBy.label) {
+        bugsToReturn = bugsToReturn.filter(bug => bug.labels.includes(filterBy.label))
+    }
+    if (sortBy.sortField) {
+        if (sortBy.sortField === 'title') {
+            bugsToReturn.sort((bug1, bug2) => bug1.title.localeCompare(bug2.title) * sortBy.sortDir)
+        } else if (
+            sortBy.sortField === 'severity' ||
+            sortBy.sortField === 'createdAt') {
+            bugsToReturn.sort((bug1, bug2) => (bug1[sortBy.sortField] - bug2[sortBy.sortField]) * sortBy.sortDir)
+        }
+    }
     if (filterBy.pageIdx !== undefined) {
         const startIdx = filterBy.pageIdx * PAGE_SIZE
-        bugsToReturn.slice(startIdx, startIdx + PAGE_SIZE)
+        bugsToReturn = bugsToReturn.slice(startIdx, startIdx + PAGE_SIZE)
     }
     return Promise.resolve(bugsToReturn)
 }
@@ -42,14 +54,15 @@ function remove(bugId) {
 }
 
 function save(bugToSave) {
-    console.log(bugToSave, '8888888888888888888888888888')
-
     if (bugToSave._id) {
         const bugIdx = bugs.findIndex(bug => bug._id === bugToSave._id)
         if (bugIdx === -1) return Promise.reject('Cannot find bug - ' + bugToSave._id)
         bugs[bugIdx] = bugToSave
     } else {
         bugToSave._id = makeId()
+        bugToSave.createdAt = Date.now()
+        const lb = getLabels(3)
+        bugToSave.labels = getLabels(3)
         bugs.unshift(bugToSave)
     }
 
@@ -69,4 +82,12 @@ function _saveBugsToFile() {
 }
 
 
-
+function getLabels(numOfLabels = 3) {
+    const labels = ['critical', 'need-CR', 'dev-branch', 'urgent', 'ASAP']
+    var res = []
+    for (var i = 0; i < numOfLabels; i++) {
+        res.push(labels[getRandomIntInclusive(0, labels.length - 1)])
+    }
+    console.log(res)
+    return res
+}

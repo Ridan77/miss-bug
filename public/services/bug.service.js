@@ -12,11 +12,10 @@ export const bugService = {
     getDefaultFilter
 }
 
-function query(filterBy) {
+function query(filterBy,) {
     return axios.get(BASE_URL, { params: filterBy })
         .then(res => res.data)
         .then(bugs => {
-
             return bugs
         })
 }
@@ -42,7 +41,6 @@ function remove(bugId) {
 }
 
 function save(bug) {
-    bug.createdAt = Date.now()
     let queryParams = `?title=${bug.title}&severity=${bug.severity}&description=${bug.description}&createdAt=${bug.createdAt}`
     if (bug._id) queryParams += `&_id=${bug._id}`
     return axios(BASE_URL + 'save' + queryParams)
