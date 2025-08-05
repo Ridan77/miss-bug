@@ -24,6 +24,7 @@ export function BugDetails() {
                 <h4>{bug.title}</h4>
                 <h5>Severity: <span>{bug.severity}</span></h5>
                 <p>Description <span>{bug.description}</span></p>
+                <p>Labels: <span>{JSON.stringify(bug.labels)}</span></p>
             </div>
         }
         <hr />

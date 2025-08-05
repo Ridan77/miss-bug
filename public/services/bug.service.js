@@ -9,11 +9,13 @@ export const bugService = {
     getById,
     save,
     remove,
-    getDefaultFilter
+    getDefaultFilter,
+    getDefaultSort
 }
 
-function query(filterBy,) {
-    return axios.get(BASE_URL, { params: filterBy })
+function query(filterBy,sortBy) {
+    console.log(sortBy)
+    return axios.get(BASE_URL, { params: { ...filterBy, ...sortBy } })
         .then(res => res.data)
         .then(bugs => {
             return bugs
@@ -21,8 +23,7 @@ function query(filterBy,) {
 }
 
 function getById(bugId) {
-    console.log(BASE_URL + bugId)
-    return axios(BASE_URL + bugId)
+    return axios.get(BASE_URL + bugId)
         .then(res => res.data)
         .catch(err => {
             if (err.response && err.response.status === 401) {
@@ -33,7 +34,7 @@ function getById(bugId) {
 }
 
 function remove(bugId) {
-    return axios(BASE_URL + bugId + '/remove')
+    return axios.delete(BASE_URL + bugId + '/remove')
         .then(res => res.data)
         .catch(err => console.log('err:', err))
 
@@ -41,11 +42,15 @@ function remove(bugId) {
 }
 
 function save(bug) {
-    let queryParams = `?title=${bug.title}&severity=${bug.severity}&description=${bug.description}&createdAt=${bug.createdAt}`
-    if (bug._id) queryParams += `&_id=${bug._id}`
-    return axios(BASE_URL + 'save' + queryParams)
-        .then(res => res.data)
-        .catch(err => console.log('err:', err))
+    if (bug._id) {
+        return axios.put(BASE_URL + bug._id, bug)
+            .then(res => res.data)
+            .catch(err => console.log('err:', err))
+    } else {
+        return axios.post(BASE_URL, bug)
+            .then(res => res.data)
+            .catch(err => console.log('err:', err))
+    }
 }
 
 
@@ -56,4 +61,8 @@ function save(bug) {
 
 function getDefaultFilter() {
     return { txt: '', minSeverity: 0 }
+}
+
+function getDefaultSort(){
+    return {sortField:'',sortDir:1}
 }

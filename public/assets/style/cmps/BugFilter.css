@@ -1,13 +1,29 @@
 .bug-filter {
-    background-color: #585858;
-    padding: 1em;
+  background-color: #585858;
+  padding: 1em;
 }
 
 .bug-filter h2 {
-    margin-bottom: .5em;
+  margin-bottom: 0.5em;
 }
 
 .bug-filter label {
-    margin-inline-start: 1em;
+  margin-inline-start: 1em;
 }
 
+.sort-label {
+  font-size: 0.8em;
+  margin-left: 0;
+}
+
+.sort-container {
+    width: 250px;
+  margin: 20px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  outline: 1px solid black;
+  padding: 20px;
+  
+}

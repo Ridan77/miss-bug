@@ -82,11 +82,10 @@ app.get('/api/bug/:bugId', (req, res) => {
     const { bugId } = req.params
     let visitedBugs = JSON.parse(req.cookies.visitedBugs || '[]')
     if (!visitedBugs.includes(bugId)) visitedBugs.push(bugId)
-    if (visitedBugs.length > 3) {
-        res.cookie('visitedBugs', JSON.stringify(visitedBugs), { maxAge: 1000 * 30 })
-        return res.status(401).send('Wait for a bit') 
-
-    }
+    // if (visitedBugs.length > 3) {
+    //     res.cookie('visitedBugs', JSON.stringify(visitedBugs), { maxAge: 1000 * 30 })
+    //     return res.status(401).send('Wait for a bit') 
+    // }
     bugService.getById(bugId)
         .then(bug => {
             res.cookie('visitedBugs', JSON.stringify(visitedBugs), { maxAge: 1000 * 30 })

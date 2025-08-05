@@ -1,14 +1,28 @@
 [
     {
+        "title": "Bug 1754400744708",
+        "description": "test 3",
+        "severity": 3,
+        "_id": "X2n8k",
+        "createdAt": 1754400751027,
+        "labels": [
+            "dev-branch",
+            "critical",
+            "urgent",
+            "ASAP"
+        ]
+    },
+    {
         "title": "New bug from body",
         "description": "New bug bug",
         "severity": 15,
         "_id": "HDlG9",
         "createdAt": 1754395505533,
         "labels": [
+            "dev-branch",
             "critical",
-            "critical",
-            "need-CR"
+            "need-CR",
+            "ASAP"
         ]
     },
     {
@@ -67,7 +81,7 @@
         "createdAt": 1754317081718,
         "labels": [
             "critical",
-            "urgent",
+            "ASAP",
             "dev-branch"
         ]
     }
