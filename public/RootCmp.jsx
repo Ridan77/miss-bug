@@ -2,7 +2,6 @@ const Router = ReactRouterDOM.HashRouter;
 const { Route, Routes } = ReactRouterDOM;
 const { useState, useEffect } = React;
 
-
 import { UserMsg } from "./cmps/UserMsg.jsx";
 import { AppHeader } from "./cmps/AppHeader.jsx";
 import { AppFooter } from "./cmps/AppFooter.jsx";
@@ -12,15 +11,21 @@ import { BugDetails } from "./pages/BugDetails.jsx";
 import { AboutUs } from "./pages/AboutUs.jsx";
 import { authService } from "./services/auth.service.js";
 import { LoginSignup } from "./pages/LoginSignUp.jsx";
+import { UserDetails } from "./pages/UserDetails.jsx";
 
 export function App() {
-  const [loggedinUser, setLoggedinUser] = useState(authService.getLoggedinUser());
+  const [loggedinUser, setLoggedinUser] = useState(
+    authService.getLoggedinUser()
+  );
 
   return (
     <Router>
       <div className="app-wrapper">
         <UserMsg />
-        <AppHeader loggedinUser={loggedinUser} setLoggedinUser={setLoggedinUser} />
+        <AppHeader
+          loggedinUser={loggedinUser}
+          setLoggedinUser={setLoggedinUser}
+        />
         <main className="container">
           <Routes>
             <Route path="/" element={<Home />} />
@@ -31,6 +36,7 @@ export function App() {
               path="/auth"
               element={<LoginSignup setLoggedinUser={setLoggedinUser} />}
             />
+            <Route path="/user/:userId" element={<UserDetails />} />
           </Routes>
         </main>
         <AppFooter />

@@ -1,25 +1,48 @@
-const BASE_URL = '/api/user/'
+const { useState, useEffect } = React;
+const { useParams, useNavigate } = ReactRouterDOM;
 
-export const userService = {
-    query,
-    getById,
-    getEmptyCredentials
-}
+import { userService } from "../services/user.service.js";
 
-function query() {
-    return axios.get(BASE_URL)
-        .then(res => res.data)
-}
+export function UserDetails() {
+  const [user, setUser] = useState(null);
+  const params = useParams();
+  const navigate = useNavigate();
 
-function getById(userId) {
-    return axios.get(BASE_URL + userId)
-        .then(res => res.data)
-}
+  useEffect(() => {
+    loadUser();
+  }, [params.userId]);
 
-function getEmptyCredentials() {
-    return {
-        username: '',
-        password: '',
-        fullname: ''
-    }
+  function loadUser() {
+    console.log(params.userId);
+    userService
+      .getById(params.userId)
+      .then((user) => {
+        console.log(user);
+        setUser(user);
+      })
+      .catch((err) => {
+        console.log("err:", err);
+        navigate("/");
+      });
+  }
+
+  function onBack() {
+    navigate("/bug");
+  }
+
+  if (!user) return <div>Loading...</div>;
+
+  return (
+    <section className="user-details">
+      <h1>User {user.fullname}</h1>
+      <pre>{JSON.stringify(user, null, 2)}</pre>
+      <p>
+        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Enim rem
+        accusantium, itaque ut voluptates quo? Vitae animi maiores nisi,
+        assumenda molestias odit provident quaerat accusamus, reprehenderit
+        impedit, possimus est ad?
+      </p>
+      <button onClick={onBack}>Back</button>
+    </section>
+  );
 }
