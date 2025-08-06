@@ -53,16 +53,20 @@ function remove(bugId) {
     return _saveBugsToFile()
 }
 
-function save(bugToSave) {
+function save(bugToSave, loggedinUser) {
     if (bugToSave._id) {
-        const bugIdx = bugs.findIndex(bug => bug._id === bugToSave._id)
-        if (bugIdx === -1) return Promise.reject('Cannot find bug - ' + bugToSave._id)
+        const bugToEdit = bugs.find(bug => bug._id === bugToSave._id)
+        if (!bugToEdit) return Promise.reject('Cannot find bug - ' + bugToSave._id)
+        bugToSave={...bugToEdit,...bugToSave}
         bugs[bugIdx] = bugToSave
     } else {
         bugToSave._id = makeId()
         bugToSave.createdAt = Date.now()
-        const lb = getLabels(3)
         bugToSave.labels = getLabels(3)
+        bugToSave.creator = {
+            _id: loggedinUser.id,
+            fullName: loggedinUser.fullName,
+        }
         bugs.unshift(bugToSave)
     }
 

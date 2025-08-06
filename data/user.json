@@ -19,6 +19,17 @@
     "password": "kiki",
     "fullname": "Kiki Ki",
     "_id": "6iykr"
+  },
+  {
+    "username": "yossi",
+    "password": "1234",
+    "fullname": "Yossi Puki",
+    "_id": "iWcPD"
+  },
+  {
+    "username": "Yossi2",
+    "password": "12345",
+    "fullname": "Yossi Mossi",
+    "_id": "hb1zM"
   }
-
 ]

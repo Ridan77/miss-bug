@@ -1,15 +1,14 @@
 import express from 'express'
+import path from 'path'
+import cookieParser from 'cookie-parser'
+
 import { bugService } from './services/bug.service.js'
 import { loggerService } from './services/logger.service.js'
-import cookieParser from 'cookie-parser'
-import path from 'path'
 import { authService } from './services/auth.service.js'
 import { userService } from './services/user.service.js'
-// import { create } from 'domain'
-// import { authService } from '../../../../../Dropbox/CaMay25-Materials/Day44-UserAuth/proj-node-auth/services/auth.servic.js'
 
 
-
+///Server Ex
 
 const app = express()
 
@@ -45,7 +44,14 @@ app.get('/api/bug', (req, res) => {
 })
 
 //* Create
+
+
 app.post('/api/bug/', (req, res) => {
+
+    const loggedinUser = authService.validateToken(req.cookies.loginToken)
+    if (!loggedinUser) return res.status(401).send('Not authenticated')
+
+
     const bugToSave = {
         title: req.body.title,
         description: req.body.description,
@@ -61,16 +67,21 @@ app.post('/api/bug/', (req, res) => {
 //*Edit
 
 app.put('/api/bug/:bugId', (req, res) => {
+    const loggedinUser = authService.validateToken(req.cookies.loginToken)
+    if (!loggedinUser) return res.status(401).send('Not authenticated')
     const bugToSave = {
         _id: req.body._id,
         title: req.body.title,
         description: req.body.description,
         severity: +req.body.severity,
         createdAt: +req.body.createdAt,
-        labels: req.body.labels
+        labels: req.body.labels,
+        creator: {
+            _id: req.body.creator._id, 
+            fullname: req.body.creator.fullname
+        }
     }
-    console.log(bugToSave)
-    bugService.save(bugToSave)
+    bugService.save(bugToSave, loggedinUser)
         .then(savedBug => res.send(savedBug))
         .catch(err => {
             loggerService.error('Cannot save bug', err)
@@ -130,7 +141,7 @@ app.post('/api/auth/login', (req, res) => {
 })
 
 
-app.post('/api/auto/signup', (req, res) => {
+app.post('/api/auth/signup', (req, res) => {
     const credentials = req.body
 
     userService.add(credentials)
@@ -152,7 +163,7 @@ app.post('/api/auth/logout', (req, res) => {
 })
 
 // Fallback route
-app.get('/**', (req, res) => {
+app.get('/*all', (req, res) => {
     res.sendFile(path.resolve('public/index.html'))
 })
 

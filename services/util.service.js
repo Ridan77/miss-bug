@@ -2,6 +2,14 @@ import fs from 'fs'
 import http from 'http'
 import https from 'https'
 
+export const utilService = {
+	readJsonFile,
+	download,
+	httpGet,
+	makeId,
+    getRandomIntInclusive
+}
+
 
 export function readJsonFile(path) {
     const str = fs.readFileSync(path, 'utf8')
