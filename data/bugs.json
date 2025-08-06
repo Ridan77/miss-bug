@@ -1,21 +1,5 @@
 [
     {
-        "title": "kiki3 ",
-        "description": "23123",
-        "severity": 3,
-        "_id": "vrifc",
-        "createdAt": 1754494533154,
-        "labels": [
-            "critical",
-            "urgent",
-            "critical"
-        ],
-        "creator": {
-            "_id": "6iykr",
-            "fullName": "Kiki Ki"
-        }
-    },
-    {
         "title": "kiki 2",
         "description": "2332",
         "severity": 3,

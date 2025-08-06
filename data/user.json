@@ -7,6 +7,14 @@
     "score": 100,
     "isAdmin": true
   },
+    {
+    "_id": "u110",
+    "username": "admin",
+    "fullname": "Dan Ribak",
+    "password": "admin",
+    "score": 100,
+    "isAdmin": true
+  },
   {
     "_id": "u102",
     "username": "muki",

@@ -55,7 +55,7 @@ function getById(bugId) {
 function remove(bugId, loggedinUser) {
     const bugIdx = bugs.findIndex(bug => bug._id === bugId)
     if (bugIdx === -1) return Promise.reject('Cannot find bug - ' + bugId)
-    if (loggedinUser._id !== bugs[bugIdx].creator._id) {
+    if (!loggedinUser.isAdmin && loggedinUser._id !== bugs[bugIdx].creator._id) {
         return Promise.reject('Not your bug')
     }
     bugs.splice(bugIdx, 1)
@@ -68,7 +68,7 @@ function save(bugToSave, loggedinUser) {
         console.log('Inside yes id')
         const idx = bugs.findIndex(bug => bug._id === bugToSave._id)
         if (idx === -1) return Promise.reject('Cannot find bug - ' + bugToSave._id)
-        if (bugs[idx].creator._id !== loggedinUser._id) {
+        if (!loggedinUser.isAdmin && bugs[idx].creator._id !== loggedinUser._id) {
             return Promise.reject('Not your bug')
         }
         bugToSave = { ...bugs[idx], ...bugToSave }
