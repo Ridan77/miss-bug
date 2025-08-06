@@ -12,6 +12,12 @@ export const bugService = {
 
 function query(filterBy, sortBy) {
     let bugsToReturn = bugs
+
+    if (filterBy.byUser) {
+        bugsToReturn = bugsToReturn.filter(item => item.creator?._id === filterBy.byUser)
+        return Promise.resolve(bugsToReturn)
+    }
+
     if (filterBy.txt) {
         const regExp = new RegExp(filterBy.txt, 'i')
         bugsToReturn = bugsToReturn.filter(bug => regExp.test(bug.title))
@@ -54,23 +60,31 @@ function remove(bugId) {
 }
 
 function save(bugToSave, loggedinUser) {
+
     if (bugToSave._id) {
-        const bugToEdit = bugs.find(bug => bug._id === bugToSave._id)
-        if (!bugToEdit) return Promise.reject('Cannot find bug - ' + bugToSave._id)
-        bugToSave={...bugToEdit,...bugToSave}
-        bugs[bugIdx] = bugToSave
+        console.log('Inside yes id')
+        const idx = bugs.findIndex(bug => bug._id === bugToSave._id)
+        if (idx === -1) return Promise.reject('Cannot find bug - ' + bugToSave._id)
+        bugToSave = { ...bugs[idx],...bugToSave}
+        bugs[idx]=bugToSave
     } else {
         bugToSave._id = makeId()
         bugToSave.createdAt = Date.now()
         bugToSave.labels = getLabels(3)
         bugToSave.creator = {
-            _id: loggedinUser.id,
-            fullName: loggedinUser.fullName,
+            _id: loggedinUser._id,
+            fullName: loggedinUser.fullname,
         }
         bugs.unshift(bugToSave)
     }
 
+    console.log(bugToSave)
     return _saveBugsToFile().then(() => bugToSave)
+
+        .catch(err => {
+            loggerService.error('Cannot save bug', err)
+            res.status(500).send('Cannot save bug')
+        })
 }
 
 function _saveBugsToFile() {
@@ -92,6 +106,5 @@ function getLabels(numOfLabels = 3) {
     for (var i = 0; i < numOfLabels; i++) {
         res.push(labels[getRandomIntInclusive(0, labels.length - 1)])
     }
-    console.log(res)
     return res
 }

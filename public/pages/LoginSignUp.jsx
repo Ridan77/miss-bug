@@ -50,7 +50,6 @@ export function LoginSignup({ setLoggedinUser }) {
         showErrorMsg(`Couldn't signup...`);
       });
   }
-  console.log("render");
   return (
     <div className="login-page">
       <form className="login-form" onSubmit={handleSubmit}>

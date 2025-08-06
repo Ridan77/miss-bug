@@ -29,7 +29,8 @@ app.get('/api/bug', (req, res) => {
         txt: req.query.txt,
         minSeverity: +req.query.minSeverity,
         label: req.query.label,
-        pageIdx: req.query.pageIdx
+        pageIdx: req.query.pageIdx,
+        byUser: req.query.byUser
     }
     const sortBy = {
         sortField: req.query.sortField,
@@ -51,13 +52,12 @@ app.post('/api/bug/', (req, res) => {
     const loggedinUser = authService.validateToken(req.cookies.loginToken)
     if (!loggedinUser) return res.status(401).send('Not authenticated')
 
-
     const bugToSave = {
         title: req.body.title,
         description: req.body.description,
         severity: +req.body.severity,
     }
-    bugService.save(bugToSave)
+    bugService.save(bugToSave,loggedinUser)
         .then(savedBug => res.send(savedBug))
         .catch(err => {
             loggerService.error('Cannot save bug', err)
