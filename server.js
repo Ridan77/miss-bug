@@ -57,7 +57,7 @@ app.post('/api/bug/', (req, res) => {
         description: req.body.description,
         severity: +req.body.severity,
     }
-    bugService.save(bugToSave,loggedinUser)
+    bugService.save(bugToSave, loggedinUser)
         .then(savedBug => res.send(savedBug))
         .catch(err => {
             loggerService.error('Cannot save bug', err)
@@ -114,9 +114,13 @@ app.get('/api/bug/:bugId', (req, res) => {
 })
 
 //* Remove/Delete
+
 app.delete('/api/bug/:bugId/', (req, res) => {
+    const loggedinUser = authService.validateToken(req.cookies.loginToken)
+    if (!loggedinUser) return res.status(401).send('Not authenticated')
     const { bugId } = req.params
-    bugService.remove(bugId)
+
+    bugService.remove(bugId,loggedinUser)
         .then(() => res.send(`Bug removed! ${bugId} `))
         .catch(err => {
             loggerService.error('Cannot remove bug', err)

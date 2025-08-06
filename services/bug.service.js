@@ -2,7 +2,7 @@ import fs from 'fs'
 import { makeId, readJsonFile, getRandomIntInclusive } from "./util.service.js";
 
 const bugs = readJsonFile('data/bugs.json')
-const PAGE_SIZE = 4
+const PAGE_SIZE = 6
 export const bugService = {
     query,
     getById,
@@ -52,9 +52,12 @@ function getById(bugId) {
     return Promise.resolve(bug)
 }
 
-function remove(bugId) {
+function remove(bugId, loggedinUser) {
     const bugIdx = bugs.findIndex(bug => bug._id === bugId)
     if (bugIdx === -1) return Promise.reject('Cannot find bug - ' + bugId)
+    if (loggedinUser._id !== bugs[bugIdx].creator._id) {
+        return Promise.reject('Not your bug')
+    }
     bugs.splice(bugIdx, 1)
     return _saveBugsToFile()
 }
@@ -65,8 +68,11 @@ function save(bugToSave, loggedinUser) {
         console.log('Inside yes id')
         const idx = bugs.findIndex(bug => bug._id === bugToSave._id)
         if (idx === -1) return Promise.reject('Cannot find bug - ' + bugToSave._id)
-        bugToSave = { ...bugs[idx],...bugToSave}
-        bugs[idx]=bugToSave
+        if (bugs[idx].creator._id !== loggedinUser._id) {
+            return Promise.reject('Not your bug')
+        }
+        bugToSave = { ...bugs[idx], ...bugToSave }
+        bugs[idx] = bugToSave
     } else {
         bugToSave._id = makeId()
         bugToSave.createdAt = Date.now()

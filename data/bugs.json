@@ -1,14 +1,46 @@
 [
     {
-        "title": "Bug 1754487815372",
-        "description": "sdfsdf",
+        "title": "kiki3 ",
+        "description": "23123",
         "severity": 3,
-        "_id": "5B5HM",
-        "createdAt": 1754487819565,
+        "_id": "vrifc",
+        "createdAt": 1754494533154,
         "labels": [
-            "dev-branch",
+            "critical",
+            "urgent",
+            "critical"
+        ],
+        "creator": {
+            "_id": "6iykr",
+            "fullName": "Kiki Ki"
+        }
+    },
+    {
+        "title": "kiki 2",
+        "description": "2332",
+        "severity": 3,
+        "_id": "9GwGb",
+        "createdAt": 1754494526230,
+        "labels": [
+            "urgent",
             "need-CR",
-            "urgent"
+            "need-CR"
+        ],
+        "creator": {
+            "_id": "6iykr",
+            "fullName": "Kiki Ki"
+        }
+    },
+    {
+        "title": "muki",
+        "description": "dfsdf",
+        "severity": 3,
+        "_id": "SNLoH",
+        "createdAt": 1754494450539,
+        "labels": [
+            "ASAP",
+            "critical",
+            "dev-branch"
         ],
         "creator": {
             "_id": "u102",
@@ -30,106 +62,5 @@
             "_id": "u102",
             "fullName": "Muki Ba"
         }
-    },
-    {
-        "title": "muki",
-        "description": "sdfsdfsd",
-        "severity": 4,
-        "_id": "H4og9",
-        "createdAt": 1754487806446,
-        "labels": [
-            "dev-branch",
-            "urgent",
-            "ASAP"
-        ],
-        "creator": {
-            "_id": "u102"
-        }
-    },
-    {
-        "title": "Bug 1754400744708",
-        "description": "test 3",
-        "severity": 3,
-        "_id": "X2n8k",
-        "createdAt": 1754400751027,
-        "labels": [
-            "dev-branch",
-            "critical",
-            "urgent",
-            "ASAP"
-        ]
-    },
-    {
-        "title": "New bug from body",
-        "description": "New bug bug",
-        "severity": 15,
-        "_id": "HDlG9",
-        "createdAt": 1754395505533,
-        "labels": [
-            "dev-branch",
-            "critical",
-            "need-CR",
-            "ASAP"
-        ]
-    },
-    {
-        "title": "New bug from body",
-        "description": "asdasdasdasd",
-        "severity": 1,
-        "_id": "ZwHZH",
-        "createdAt": 1754395165254,
-        "labels": [
-            "critical",
-            "urgent",
-            "dev-branch"
-        ]
-    },
-    {
-        "_id": "m3RGW",
-        "title": "Edited Bug 2",
-        "description": "asdasdasdasd",
-        "severity": 3,
-        "createdAt": 1754394007765,
-        "labels": [
-            "critical",
-            "critical",
-            "urgent"
-        ]
-    },
-    {
-        "_id": "64jpc",
-        "title": "asasasasas",
-        "description": "asdasdasdasd",
-        "severity": 3,
-        "createdAt": 1754320005494,
-        "labels": [
-            "critical",
-            "urgent",
-            "dev-branch"
-        ]
-    },
-    {
-        "_id": "abc123",
-        "title": "Cannot save a new bug",
-        "description": "problem when clicking Save",
-        "severity": 3,
-        "createdAt": 1542107359454,
-        "labels": [
-            "critical",
-            "urgent",
-            "dev-branch"
-        ]
-    },
-    {
-        "_id": "def123",
-        "title": "System crash",
-        "description": "problem when downloading",
-        "severity": 1,
-        "createdAt": 1754317081718,
-        "labels": [
-            "critical",
-            "ASAP",
-            "dev-branch"
-        ]
     }
 ]
