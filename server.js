@@ -3,7 +3,10 @@ import { bugService } from './services/bug.service.js'
 import { loggerService } from './services/logger.service.js'
 import cookieParser from 'cookie-parser'
 import path from 'path'
-import { create } from 'domain'
+import { authService } from './services/auth.service.js'
+import { userService } from './services/user.service.js'
+// import { create } from 'domain'
+// import { authService } from '../../../../../Dropbox/CaMay25-Materials/Day44-UserAuth/proj-node-auth/services/auth.servic.js'
 
 
 
@@ -19,11 +22,11 @@ app.set('query parser', 'extended')
 
 
 
-
+//Express Routing
 
 //* Read
 app.get('/api/bug', (req, res) => {
-         const filterBy = {
+    const filterBy = {
         txt: req.query.txt,
         minSeverity: +req.query.minSeverity,
         label: req.query.label,
@@ -31,9 +34,9 @@ app.get('/api/bug', (req, res) => {
     }
     const sortBy = {
         sortField: req.query.sortField,
-        sortDir:+req.query.sortDir
-    }    
-    bugService.query(filterBy,sortBy)
+        sortDir: +req.query.sortDir
+    }
+    bugService.query(filterBy, sortBy)
         .then(bugs => res.send(bugs))
         .catch(err => {
             loggerService.error('Cannot get bugs', err)
@@ -113,6 +116,48 @@ app.delete('/api/bug/:bugId/', (req, res) => {
 
 
 
+// Auth API
+
+app.post('/api/auth/login', (req, res) => {
+    const credentials = req.body
+    authService.checkLogin(credentials)
+        .then(user => {
+            const loginToken = authService.getLoginToken(user)
+            res.cookie('loginToken', loginToken)
+            res.send(user)
+        })
+        .catch(() => res.status(404).send('Invalid Credentials'))
+})
 
 
-app.listen(3030, () => console.log('Server ready at port 3030'))
+app.post('/api/auto/signup', (req, res) => {
+    const credentials = req.body
+
+    userService.add(credentials)
+        .then(user => {
+            if (user) {
+                const logintoken = authService.getLoginToken(user)
+                res.cookie('loginToken', logintoken)
+                res.send(user)
+            } else {
+                res.status(400).send('Cannot Signup')
+            }
+        })
+        .catch(err => res.status(400).send('Username taken.'))
+})
+
+app.post('/api/auth/logout', (req, res) => {
+    res.clearCookie('loginToken')
+    res.send('logged-out!')
+})
+
+// Fallback route
+app.get('/**', (req, res) => {
+    res.sendFile(path.resolve('public/index.html'))
+})
+
+
+const PORT = process.env.PORT || 3030
+app.listen(PORT, () =>
+    loggerService.info(`Server listening on port http://127.0.0.1:${PORT}/`)
+)
